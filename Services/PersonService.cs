@@ -177,5 +177,15 @@ namespace Services
 
             return mactch_person.ToPersonResponse();
         }
+
+        public bool DeletePerson(Guid? id)
+        {
+            if(id == null)
+                return false;
+            Person? person = _persons.FirstOrDefault(p => p.PersonId == id);
+            if(person == null) return false;
+            _persons.Remove(person);
+            return true;
+        }
     }
 }

@@ -533,5 +533,43 @@ namespace CRUDTests
         }
 
         #endregion
+
+        #region DeletePerson
+
+        [Fact]
+        public void DeletePerson_validpersonID() {
+
+            CountryAddRequest country_add_request = new CountryAddRequest() { CountryName = "China" };
+
+            CountryResponse country_response = _countriesService.AddCountry(country_add_request);
+
+            PersonAddRequest person_add_req = new PersonAddRequest()
+            {
+                PersonName = "Liang",
+                CountryID = country_response.CountryID,
+                Address = "dempo road",
+                DateOfBirth = DateTime.MinValue,
+                Email = "liangwuweb@gmail.com",
+                Gender = GenderOptions.Male,
+                ReceiveNewsLetters = true,
+
+            };
+
+            PersonResponse person_add_res = _personService.AddPerson(person_add_req);
+
+            bool isDeleted = _personService.DeletePerson(person_add_res.PersonId);
+            Assert.True(isDeleted);
+
+
+        }
+
+        [Fact]
+        public void DeletePerson_INvalidpersonID()
+        {
+            bool isDeleted = _personService.DeletePerson(Guid.NewGuid());
+            Assert.False(isDeleted);
+        }
+
+        #endregion
     }
 }
