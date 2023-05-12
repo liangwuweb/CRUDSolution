@@ -1,6 +1,7 @@
 ﻿using ServiceContracrs.DTO;
 using System;
 using System.Security.Cryptography.X509Certificates;
+using ServiceContracrs.Enums;
 
 namespace ServiceContracrs
 {
@@ -19,5 +20,8 @@ namespace ServiceContracrs
         /// <param name="searchString"></param>
         /// <returns></returns>
         List<PersonResponse> GetFilteredPerson(string searchBy, string? searchString);
+
+        List<PersonResponse> GetSortedPerson(List<PersonResponse> allPersons, string sortBy, SortOrder sortOrder);
+
     }
 }

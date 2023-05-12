@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Entities;
 using ServiceContracrs;
 using ServiceContracrs.DTO;
+using ServiceContracrs.Enums;
 using Services.Helpers;
 
 namespace Services
@@ -103,6 +104,51 @@ namespace Services
             }
             return matchPersons;
 
+        }
+
+        public List<PersonResponse> GetSortedPerson(List<PersonResponse> allPersons, string sortBy, SortOrder sortOrder)
+        {
+            if(string.IsNullOrEmpty(sortBy))
+                return allPersons;
+
+            List<PersonResponse> sortedPersons = (sortBy, sortOrder) switch
+            {
+
+                (nameof(PersonResponse.PersonName), SortOrder.ASC) => allPersons.OrderBy(p => p.PersonName, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.PersonName), SortOrder.DESC) => allPersons.OrderByDescending(p => p.PersonName, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.Email), SortOrder.ASC) => allPersons.OrderBy(p => p.Email, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.Email), SortOrder.DESC) => allPersons.OrderByDescending(p => p.Email, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.DateOfBirth), SortOrder.ASC) => allPersons.OrderBy(p => p.DateOfBirth).ToList(),
+
+                (nameof(PersonResponse.DateOfBirth), SortOrder.DESC) => allPersons.OrderByDescending(p => p.DateOfBirth).ToList(),
+
+                (nameof(PersonResponse.Age), SortOrder.ASC) => allPersons.OrderBy(p => p.Age).ToList(),
+
+                (nameof(PersonResponse.Age), SortOrder.DESC) => allPersons.OrderByDescending(p => p.Age).ToList(),
+
+                (nameof(PersonResponse.Gender), SortOrder.ASC) => allPersons.OrderBy(p => p.Gender).ToList(),
+
+                (nameof(PersonResponse.Gender), SortOrder.DESC) => allPersons.OrderByDescending(p => p.Gender).ToList(),
+
+                (nameof(PersonResponse.CountryName), SortOrder.ASC) => allPersons.OrderBy(p => p.CountryName, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.CountryName), SortOrder.DESC) => allPersons.OrderByDescending(p => p.CountryName, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.Address), SortOrder.ASC) => allPersons.OrderBy(p => p.Address, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.Address), SortOrder.DESC) => allPersons.OrderByDescending(p => p.Address, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.ReceiveNewsLetters), SortOrder.ASC) => allPersons.OrderBy(p => p.ReceiveNewsLetters).ToList(),
+
+                (nameof(PersonResponse.ReceiveNewsLetters), SortOrder.DESC) => allPersons.OrderByDescending(p => p.ReceiveNewsLetters).ToList(),
+
+                _ => allPersons
+            };
+            return sortedPersons;
         }
     }
 }
