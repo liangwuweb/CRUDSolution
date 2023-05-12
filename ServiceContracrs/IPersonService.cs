@@ -23,5 +23,7 @@ namespace ServiceContracrs
 
         List<PersonResponse> GetSortedPerson(List<PersonResponse> allPersons, string sortBy, SortOrder sortOrder);
 
+        PersonResponse UpdatePerson(PersonUpdateRequest personUpdateReq);
+
     }
 }

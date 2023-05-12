@@ -450,5 +450,88 @@ namespace CRUDTests
 
         }
         #endregion
+
+        #region UpdatePerson
+
+        [Fact]
+        public void Update_NullPerson() {
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                _personService.UpdatePerson(null);
+            });
+            
+        }
+
+        [Fact]
+        public void Update_InvalidPersonId()
+        {
+            PersonUpdateRequest person_update_request = new PersonUpdateRequest() { PersonId = Guid.NewGuid()};
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                _personService.UpdatePerson(person_update_request);
+            });
+
+        }
+
+        [Fact]
+        public void Update_NullPersonName()
+        {
+            CountryAddRequest country_add_request = new CountryAddRequest() { CountryName = "China" };
+
+            CountryResponse country_response = _countriesService.AddCountry(country_add_request);
+
+            PersonAddRequest person_add_req = new PersonAddRequest() {
+                PersonName = "Liang",
+                CountryID = country_response.CountryID, Email = "liangwu@gmail.com", Gender = GenderOptions.Male
+
+            };
+            PersonResponse perosn_res_from_add = _personService.AddPerson(person_add_req);
+
+            PersonUpdateRequest person_update_request = perosn_res_from_add.ToPersonUpdateRequest();
+            person_update_request.PersonName = null;
+
+            Assert.Throws<ArgumentException>(() => {
+                _personService.UpdatePerson(person_update_request);
+            });
+
+
+                
+               
+
+        }
+
+        [Fact]
+        public void Update_test03()
+        {
+            CountryAddRequest country_add_request = new CountryAddRequest() { CountryName = "China" };
+
+            CountryResponse country_response = _countriesService.AddCountry(country_add_request);
+
+            PersonAddRequest person_add_req = new PersonAddRequest()
+            {
+                PersonName = "Liang",
+                CountryID = country_response.CountryID,
+                Address = "dempo road",
+                DateOfBirth = DateTime.MinValue,
+                Email = "liangwuweb@gmail.com", Gender = GenderOptions.Male,
+                ReceiveNewsLetters = true,
+
+            };
+            PersonResponse perosn_res_from_add = _personService.AddPerson(person_add_req);
+
+            PersonUpdateRequest person_update_request = perosn_res_from_add.ToPersonUpdateRequest();
+            //person_update_request.PersonName = "Bob";
+
+            PersonResponse person_res_from_update = _personService.UpdatePerson(person_update_request);
+
+            PersonResponse person_res_from_get = _personService.GetPersonByPersonID(person_res_from_update.PersonId);
+
+            Assert.Equal(person_res_from_update, person_res_from_get);
+
+
+        }
+
+        #endregion
     }
 }

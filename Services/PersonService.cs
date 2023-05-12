@@ -150,5 +150,32 @@ namespace Services
             };
             return sortedPersons;
         }
+
+        public PersonResponse UpdatePerson(PersonUpdateRequest personUpdateReq)
+        {
+            if (personUpdateReq == null) { 
+                throw new ArgumentNullException(nameof(personUpdateReq));
+            }
+
+            ValidationHelper.ModelValidation(personUpdateReq);
+
+            // get matching person object
+            Person? mactch_person = _persons.FirstOrDefault(temp => temp.PersonId == personUpdateReq.PersonId);
+            if (mactch_person == null) {
+                throw new ArgumentException("person does not exist");
+
+            }
+
+            //update all details
+            mactch_person.PersonName = personUpdateReq.PersonName;
+            mactch_person.Email = personUpdateReq.Email;
+            mactch_person.DateOfBirth = personUpdateReq.DateOfBirth;
+            mactch_person.Gender = personUpdateReq.Gender.ToString();
+            mactch_person.Address = personUpdateReq.Address;
+            mactch_person.ReceiveNewsLetters = personUpdateReq.ReceiveNewsLetters;
+            mactch_person.CountryID = personUpdateReq.CountryID;
+
+            return mactch_person.ToPersonResponse();
+        }
     }
 }

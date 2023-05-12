@@ -53,6 +53,22 @@ namespace ServiceContracrs.DTO
         {
             return $"Person ID: {PersonId}, Person Name: {PersonName}, Email: {Email}, Gender: {Gender}, DOB: {DateOfBirth?.ToString("dd MMM yyyy")}, CountryID: {CountryID}, Country Name: {CountryName}, Address: {Address}";
         }
+
+        public PersonUpdateRequest ToPersonUpdateRequest() 
+        {
+            return new PersonUpdateRequest
+            {
+                PersonId = PersonId,
+                PersonName = PersonName,
+                Email = Email,
+                DateOfBirth = DateOfBirth,
+                Gender = (GenderOptions)Enum.Parse(typeof(GenderOptions), Gender, true),
+                Address = Address,
+                CountryID = CountryID,
+                ReceiveNewsLetters = ReceiveNewsLetters,
+            };
+        
+        }
     }
 
     public static class PersonExtensions {
@@ -61,6 +77,7 @@ namespace ServiceContracrs.DTO
             {
                 PersonId = person.PersonId,
                 PersonName = person.PersonName,
+                Email = person.Email,
                 DateOfBirth = person.DateOfBirth,
                 Gender = person.Gender,
                 CountryID = person.CountryID,
