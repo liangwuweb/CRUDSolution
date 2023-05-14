@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceContracrs;
 using ServiceContracrs.DTO;
 using ServiceContracrs.Enums;
@@ -50,7 +51,12 @@ namespace CRUDExample.Controllers
         public IActionResult Create() 
         {
             List<CountryResponse> countires = _countriesService.GetAllCountries();
-            ViewBag.Countries = countires;
+            ViewBag.Countries = countires.Select(temp => new SelectListItem() { 
+                Text = temp.CountryName,
+                Value = temp.CountryID.ToString(),
+            });
+
+           
             return View();
         }
 
