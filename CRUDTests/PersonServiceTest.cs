@@ -8,6 +8,7 @@ using Services;
 using System.Collections.Generic;
 using Xunit.Abstractions;
 using Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRUDTests
 {
@@ -18,9 +19,9 @@ namespace CRUDTests
         private readonly ITestOutputHelper _helper;
 
         public PersonServiceTest(ITestOutputHelper helper) {
+            _countriesService = new CountriesServices(new PersonsDbContext(new DbContextOptionsBuilder<PersonsDbContext>().Options));
 
-            _personService = new PersonService(false);
-            _countriesService = new CountriesServices(false);
+            _personService = new PersonService(new PersonsDbContext(new DbContextOptionsBuilder<PersonsDbContext>().Options), _countriesService);
             _helper = helper;
         }
 

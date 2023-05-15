@@ -4,6 +4,7 @@ using ServiceContracrs.DTO;
 using ServiceContracrs;
 using Services;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRUDTests
 {
@@ -13,7 +14,7 @@ namespace CRUDTests
 
         public CountriesServiceTest() { 
         
-            _countriesService = new CountriesServices(false);
+            _countriesService = new CountriesServices(new PersonsDbContext(new DbContextOptionsBuilder<PersonsDbContext>().Options));
         }
 
         #region Add Country
