@@ -12,7 +12,7 @@ namespace Entities
 
         public string? CountryName { get; set; }
 
-
+        public virtual ICollection<Person>? persons { get; set; }
 
     }
 }

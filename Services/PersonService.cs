@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracrs;
 using ServiceContracrs.DTO;
 using ServiceContracrs.Enums;
@@ -19,14 +20,6 @@ namespace Services
             _countriesService = countriesService;
         }
 
-        private PersonResponse ConvertPersonToPersonResponse(Person person) {
-            PersonResponse res = person.ToPersonResponse();
-            res.CountryName = _countriesService.GetCountryByID(person.CountryID)?.CountryName;
-            return res;
-        }
-
-      
-
         public PersonResponse AddPerson(PersonAddRequest? personAddRequest)
         {
             if(personAddRequest == null)
@@ -42,21 +35,26 @@ namespace Services
             //_db.SaveChanges();
             _db.sp_InsertPerson(person);
 
-            return ConvertPersonToPersonResponse(person);
+            return person.ToPersonResponse();
 
 
         }
 
         public List<PersonResponse> GetAllPersons()
         {
-            return _db.sp_GetAllPersons().Select(p => p.ToPersonResponse()).ToList() as List<PersonResponse>;
+
+            //return _db.sp_GetAllPersons().Select(p => p.ToPersonResponse()).ToList() as List<PersonResponse>;
+
+            //using entity linq query
+            return _db.Persons.Include("Country").Select(p => p.ToPersonResponse()).ToList() as List<PersonResponse>;
         }
 
         public PersonResponse? GetPersonByPersonID(Guid? id)
         {
             if (id == null) return null;
 
-            return _db.Persons.FirstOrDefault(p => p.PersonId == id)?.ToPersonResponse();
+            return _db.Persons.Include("Country").FirstOrDefault(p => p.PersonId == id)?.ToPersonResponse();
+
         }
 
         public List<PersonResponse> GetFilteredPerson(string searchBy, string? searchString)
