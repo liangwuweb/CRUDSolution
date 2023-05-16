@@ -33,6 +33,12 @@ namespace Entities
 
             foreach (Person person in persons)
                 modelBuilder.Entity<Person>().HasData(person);
+
+            //Fluent API 
+            modelBuilder.Entity<Person>().Property(temp => temp.TIN)
+                .HasColumnName("TaxIdentificationNumber")
+                .HasColumnType("varchar(8)")
+                .HasDefaultValue("12345678");
         }
 
         public List<Person> sp_GetAllPersons() {
@@ -51,7 +57,7 @@ namespace Entities
                 new SqlParameter("@ReceiveNewsLetters", person.ReceiveNewsLetters),
             };
 
-            return Database.ExecuteSqlRaw("EXECUTE [dbo].[InsertPerson] @PersonId, @PersonName, @Email, @DateOfBirth, @Gender, @CountryID, @Address, @ReceiveNewsLetters", parameters);
+            return Database.ExecuteSqlRaw("EXECUTE [dbo].[InsertPerson] @PersonId, @PersonName, @Email, @DateOfBirth, @Gender, @CountryID, @Address, @ReceiveNewsLetters, @TIN", parameters);
         
         }
     }

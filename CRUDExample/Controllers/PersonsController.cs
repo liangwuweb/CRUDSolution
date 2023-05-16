@@ -34,8 +34,8 @@ namespace CRUDExample.Controllers
                 { nameof(PersonResponse.Address), "Address"}
             };
 
-            List<PersonResponse> persons = _personService.GetFilteredPerson(searchBy, searchString);
             ViewBag.CurrentSearchBy = searchBy;
+            List<PersonResponse> persons = _personService.GetFilteredPerson(searchBy, searchString);
             ViewBag.CurrentSearchString = searchString;
 
             //Sorting
