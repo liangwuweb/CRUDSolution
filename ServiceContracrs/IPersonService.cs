@@ -7,11 +7,11 @@ namespace ServiceContracrs
 {
     public interface IPersonService
     {
-        PersonResponse AddPerson(PersonAddRequest? personAddRequest);
+        Task<PersonResponse> AddPerson(PersonAddRequest? personAddRequest);
 
-        List<PersonResponse> GetAllPersons();
+        Task<List<PersonResponse>> GetAllPersons();
 
-        PersonResponse? GetPersonByPersonID(Guid? id);
+        Task<PersonResponse?> GetPersonByPersonID(Guid? id);
 
         /// <summary>
         /// 
@@ -19,13 +19,13 @@ namespace ServiceContracrs
         /// <param name="searchBy"></param>
         /// <param name="searchString"></param>
         /// <returns></returns>
-        List<PersonResponse> GetFilteredPerson(string searchBy, string? searchString);
+        Task<List<PersonResponse>> GetFilteredPerson(string searchBy, string? searchString);
 
-        List<PersonResponse> GetSortedPerson(List<PersonResponse> allPersons, string sortBy, SortOrder sortOrder);
+        Task<List<PersonResponse>> GetSortedPerson(List<PersonResponse> allPersons, string sortBy, SortOrder sortOrder);
 
-        PersonResponse UpdatePerson(PersonUpdateRequest personUpdateReq);
+        Task<PersonResponse> UpdatePerson(PersonUpdateRequest personUpdateReq);
 
-        bool DeletePerson(Guid? id);
+        Task<bool> DeletePerson(Guid? id);
 
     }
 }
